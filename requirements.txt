@@ -1,0 +1,8 @@
+clever-bench>=1.7.0
+numpy
+pandas
+matplotlib
+requests
+google-genai            # PROVIDER = "gemini"
+sentence-transformers   # dense retriever (falls back to TF-IDF without it)
+# transformers, torch, accelerate   # only for PROVIDER = "hf_local" on a GPU

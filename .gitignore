@@ -1,0 +1,8 @@
+cache/
+logs/
+results/
+.logs/
+data/emb_*.npy
+data/corpus.jsonl
+__pycache__/
+*.pyc
