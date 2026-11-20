@@ -18,14 +18,21 @@ N_DEV = 20      # prompt tuning + mining retrieval examples
 N_TEST = 40     # every reported number comes from these problems only
 
 # ---------------------------------------------------------------- generator
-# PROVIDER: "gemini" | "openai_compat" | "hf_local" | "mock"
+# PROVIDER: "ollama" | "gemini" | "openai_compat" | "hf_local" | "mock"
+#   ollama        -> local Ollama server at OLLAMA_URL, no key. Ollama's default context
+#                    (4k) silently truncates our ~15k-token prompts, so MODEL must be a
+#                    variant with a larger num_ctx, made once with a Modelfile:
+#                        FROM qwen2.5:7b
+#                        PARAMETER num_ctx 32768
+#                    ollama create qwen2.5-32k -f Modelfile
 #   gemini        -> Google AI Studio key in env var GEMINI_API_KEY
 #   openai_compat -> any OpenAI-style endpoint (Groq, OpenRouter, OpenAI, Ollama, vLLM)
 #                    set OPENAI_BASE_URL and OPENAI_API_KEY
 #   hf_local      -> open model on a Colab/Kaggle GPU via transformers
 #   mock          -> no model; used only by the smoke test
-PROVIDER = "gemini"
-MODEL = "gemini-2.5-flash"     # keep FIXED across all four configs
+PROVIDER = "ollama"
+MODEL = "qwen2.5-32k"          # keep FIXED across all four configs
+OLLAMA_URL = "http://localhost:11434"
 TEMPERATURE = 0.7
 MAX_OUTPUT_TOKENS = 4096
 

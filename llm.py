@@ -34,10 +34,10 @@ def _gemini(system, user, tag):
                           "out": getattr(usage, "candidates_token_count", None)}
 
 
-def _openai_compat(system, user, tag):
+def _openai_compat(system, user, tag, base=None):
     """Groq, OpenRouter, OpenAI, Ollama, vLLM ... any /chat/completions endpoint."""
     import requests
-    base = os.environ.get("OPENAI_BASE_URL", "https://api.openai.com/v1").rstrip("/")
+    base = (base or os.environ.get("OPENAI_BASE_URL", "https://api.openai.com/v1")).rstrip("/")
     r = requests.post(f"{base}/chat/completions", timeout=600,
                       headers={"Authorization": f"Bearer {os.environ.get('OPENAI_API_KEY', '')}"},
                       json={"model": config.MODEL, "temperature": config.TEMPERATURE,
@@ -70,6 +70,11 @@ def _hf_local(system, user, tag):
     return text, {"in": int(ids.shape[1]), "out": int(out.shape[1] - ids.shape[1])}
 
 
+def _ollama(system, user, tag):
+    """Local Ollama server (no key). Use a model with a large num_ctx, see config.py."""
+    return _openai_compat(system, user, tag, base=os.environ.get("OLLAMA_URL", config.OLLAMA_URL) + "/v1")
+
+
 MOCK_FN = None   # set by the smoke test: fn(system, user, tag) -> str
 
 
@@ -77,7 +82,7 @@ def _mock(system, user, tag):
     return MOCK_FN(system, user, tag), {"in": len(user) // 4, "out": 50}
 
 
-PROVIDERS = {"gemini": _gemini, "openai_compat": _openai_compat,
+PROVIDERS = {"gemini": _gemini, "openai_compat": _openai_compat, "ollama": _ollama,
              "hf_local": _hf_local, "mock": _mock}
 
 

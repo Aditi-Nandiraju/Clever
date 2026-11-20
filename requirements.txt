@@ -1,4 +1,4 @@
-clever-bench>=1.7.0
+clever-bench>=1.6.0
 numpy
 pandas
 matplotlib

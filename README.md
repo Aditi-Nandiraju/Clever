@@ -59,7 +59,8 @@ export GEMINI_API_KEY=...                     # PROVIDER = "gemini"
 python smoke_test.py                           # expect 26/26 checks passed
 ```
 
-In Colab, prefix shell commands with `!`. Store the key with Colab's *Secrets* panel, not in the
+**Colab:** open `clever_colab.ipynb` (T4 GPU runtime). It installs Lean + Mathlib and Ollama
+(`qwen2.5-32k`) and keeps logs/cache/results in Google Drive. In Colab, prefix shell commands with `!`. Store the key with Colab's *Secrets* panel, not in the
 notebook. Never commit a key to GitHub.
 
 ## Run order
