@@ -1,0 +1,1 @@
+{"tag": "C1_baseline/s0/p53/a5", "text": "[GENERATED IMPLEMENTATION]\nx + y\n[END]\n[HELPER LEMMAS]\n[END]\n[PROOF]\nby\n  unfold problem_spec\n  let result := implementation x y\n  use result\n  simp [result]\n  simp [implementation]\n  linarith\n[END]", "usage": {"in": 5281, "out": 64}}
